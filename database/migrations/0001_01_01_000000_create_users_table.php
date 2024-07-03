@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->date('birthday')->nullable();
             $table->string('address')->nullable();
+            $table->string('fb_url')->nullable();
+            $table->string('inst_url')->nullable();
+            $table->string('gmail_url')->nullable();
+            $table->string('linkedin_url')->nullable();
+            $table->string('github_url')->nullable();
             $table->string('phone',11)->nullable();
             $table->string('cv')->nullable();
             $table->string('email',120)->unique();

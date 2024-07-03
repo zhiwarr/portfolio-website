@@ -24,7 +24,13 @@ class User extends Authenticatable
         'phone',
         'address',
         'image',
-        'cv'
+        'cv',
+        'description',
+        'fb_url',
+        'inst_url',
+        'gmail_url',
+        'linkedin_url',
+        'github_url',
     ];
 
     /**
@@ -48,5 +54,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    protected $appends = ['image_path'];
+    public function getImagePathAttribute(): string{
+        return env('APP_URL')."uploads/user-image/".$this->image;
     }
 }

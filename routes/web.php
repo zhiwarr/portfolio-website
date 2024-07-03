@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/download', [HomeController::class,'downloadCV']);
 Route::get('/login', function () {
     return view('auth.login');
 });
@@ -15,11 +17,13 @@ Route::get('/forget-password', function () {
 Route::get('/reset-password', function () {
     return view('auth.reset-password');
 });
+Route::group(['middleware'=>'auth','prefix'=>'admin','as'=>'admin.'],function(){
+
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
+}
+)->name('dashboard');
+route::resource('profile',ProfileController::class)->only(['index','edit','update','destroy'])->names('profile');
 });
-Route::middleware('auth')->group(function () {
 
-});
-
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
