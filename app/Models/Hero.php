@@ -9,5 +9,9 @@ class Hero extends Model
 {
     use HasFactory;
         protected $guarded = [];
+        protected $appends = ['image_path'];
+        public function getImagePathAttribute(){
+            return env('APP_URL')."uploads/heros/".$this->background_image;
+        }
 
 }

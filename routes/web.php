@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 Route::get('/download', [HomeController::class,'downloadCV']);
 Route::get('/login', function () {
     return view('auth.login');
@@ -24,6 +26,8 @@ Route::get('/dashboard', function () {
 }
 )->name('dashboard');
 route::resource('profile',ProfileController::class)->only(['index','edit','update','destroy'])->names('profile');
+route::resource('hero',HeroController::class)->except(['show'])->names('hero');
+route::resource('courses',CourseController::class)->except(['show'])->names('courses');
 });
 
 require __DIR__.'/auth.php';

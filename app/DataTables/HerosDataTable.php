@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Hero;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class HerosDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,26 +22,32 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+              ->addIndexColumn()
         ->addColumn('image',function($query){
-          return '<img width="120" height="120" style="border-radius:100%;" src="'.$query->image_path.'" />';
+          return '<img width="200" src="'.$query->image_path.'" />';
         })
-        ->addColumn('cv',function($query){
-            return '<a href="/download">'.$query->name.'</a>';
-        })
-            ->addColumn('action', function ($row) {
-            return '<div class="d-flex "> <a href="'. route('admin.profile.edit', $row->id). '"
-            class="btn mx-1 btn-xs btn-info"><i class="fas fa-edit text-white "></i></a>
+        ->addColumn('action', function ($row) {
+            return '<div class="d-flex "> <a href="'. route('admin.hero.edit', $row->id). '"
+            class="btn mx-1 btn-xs btn-primary"><i class="fas fa-edit"></i></a>
+                           <form method="POST" id="form-'.$row->id.'" action="'.route('admin.hero.destroy', $row->id).'"  style="display: inline-block;">
+    '.csrf_field().'
+    '.method_field('DELETE').'
+    <button type="button" onclick="deleteData('.$row->id.')" class="delete-form btn mx-1 btn-xs btn-danger" class="btn btn-danger ml-2">
+        <i class="far fa-trash-alt"></i>
+    </button>
+</form>
+
+
 </div>';
         })
-        ->setRowId('id')
-        ->rawColumns(['image','cv','action']);
+            ->setRowId('id')
+            ->rawColumns(['image','action']);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(User $model): QueryBuilder
+    public function query(Hero $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -52,7 +58,7 @@ class UsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('heros-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -74,18 +80,20 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('id'),
+            Column::make('title'),
+            Column::make('subtitle'),
+            Column::make('cta_text'),
+            Column::make('cta_link'),
             Column::make('image'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('birthday'),
-            Column::make('address'),
-            Column::make('cv'),
-              Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+            // Column::make('created_at'),
+            // Column::make('updated_at'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center'),
         ];
     }
 
@@ -94,6 +102,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'Heros_' . date('YmdHis');
     }
 }

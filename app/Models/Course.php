@@ -9,4 +9,8 @@ class Course extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['image_path'];
+        public function getImagePathAttribute(){
+            return env('APP_URL')."uploads/courses/".$this->image;
+        }
 }

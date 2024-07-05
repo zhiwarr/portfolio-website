@@ -37,8 +37,8 @@ class ProfileController extends Controller
         // Update the image path in $validated array
     }
         $validated['image'] = $imageName;
-    if($request->hasFile('cv')){
-        $cv = $request->file('cv');
+    if($request->hasFile('file')){
+        $cv = $request->file('file');
         $cvName = $data->name .'.'. $cv->getClientOriginalExtension();
         $cv->move("uploads/cv/", $cvName);
         // Update the cv path in $validated array

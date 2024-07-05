@@ -15,6 +15,10 @@
     <!-- Icons CSS -->
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/tailwind2.css') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/datatablebs.css') }}">
     @vite(['resources/js/app.js'])
 </head>
 
