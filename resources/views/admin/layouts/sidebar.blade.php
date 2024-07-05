@@ -40,6 +40,8 @@
                 <x-sidelink title="dashboard" url="/admin/dashboard"></x-sidelink>
                 <x-sidelink title="hero" index="admin.hero.index" form="admin.hero.create"></x-sidelink>
                 <x-sidelink title="courses" index="admin.courses.index" form="admin.courses.create"></x-sidelink>
+                <x-sidelink title="skills" index="admin.skills.index" form="admin.skills.create"></x-sidelink>
+                <x-sidelink title="projects" index="admin.projects.index" form="admin.projects.create"></x-sidelink>
 
             </ul>
         </div>

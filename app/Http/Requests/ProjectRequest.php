@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HeroRequest extends FormRequest
+class ProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class HeroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['string','required','max:255'],
-            'background_image'=>['image','mimes:png,jpg,gif','max:2048','nullable'],
-            'subtitle'=>['string','required','max:255'],
-            'cta_text'=>['string','required','max:255'],
-            'cta_link'=>['url','required'],
+             'title' => 'required|string|max:122',
+            'description' => 'required|string',
+            'project_url' => 'required|url',
+            'image' => [in_array($this->method(),['PUT','PATCH'])?'nullable':'required',
+            'image','max:2048','mimes:png,jpg,jpeg,gif'],
         ];
     }
 }

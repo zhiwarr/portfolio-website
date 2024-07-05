@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Course;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CoursesDataTable extends DataTable
+class ProjectsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -27,9 +27,9 @@ class CoursesDataTable extends DataTable
           return '<img width="200" src="'.$query->image_path.'" />';
         })
         ->addColumn('action', function ($row) {
-            return '<div class="d-flex "> <a href="'. route('admin.courses.edit', $row->id). '"
+            return '<div class="d-flex "> <a href="'. route('admin.projects.edit', $row->id). '"
             class="btn mx-1 btn-xs btn-primary"><i class="fas fa-edit"></i></a>
-                           <form method="POST" id="form-'.$row->id.'" action="'.route('admin.courses.destroy', $row->id).'"  style="display: inline-block;">
+                           <form method="POST" id="form-'.$row->id.'" action="'.route('admin.projects.destroy', $row->id).'"  style="display: inline-block;">
     '.csrf_field().'
     '.method_field('DELETE').'
     <button type="button" onclick="deleteData('.$row->id.')" class="delete-form btn mx-1 btn-xs btn-danger" class="btn btn-danger ml-2">
@@ -47,7 +47,7 @@ class CoursesDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Course $model): QueryBuilder
+    public function query(Project $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -58,7 +58,7 @@ class CoursesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('courses-table')
+                    ->setTableId('projects-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -80,12 +80,9 @@ class CoursesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-              Column::make('id'),
-              Column::make('course_name'),
-
+                 Column::make('id'),
+              Column::make('title'),
               Column::make('image'),
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
@@ -99,6 +96,6 @@ class CoursesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Courses_' . date('YmdHis');
+        return 'Projects_' . date('YmdHis');
     }
 }

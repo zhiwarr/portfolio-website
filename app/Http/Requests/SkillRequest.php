@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use phpDocumentor\Reflection\Types\True_;
 
-class HeroRequest extends FormRequest
+class SkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +23,8 @@ class HeroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['string','required','max:255'],
-            'background_image'=>['image','mimes:png,jpg,gif','max:2048','nullable'],
-            'subtitle'=>['string','required','max:255'],
-            'cta_text'=>['string','required','max:255'],
-            'cta_link'=>['url','required'],
+            'name'=>'required|max:122|string',
+            'image'=>[in_array($this->method(),['PUT','Patch'])?'nullable':'required','max:2048','mimes:png,jpg,jpeg,gif']
         ];
     }
 }
