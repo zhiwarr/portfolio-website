@@ -34,7 +34,7 @@ class ProjectController extends Controller
     public function edit(string $id)
     {
      $data = Project::findOrFail($id);
-        return view('admin.courses.form', compact('data'));
+        return view('admin.projects.form', compact('data'));
     }
 
     public function update(ProjectRequest $request, string $id)

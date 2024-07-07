@@ -23,10 +23,10 @@ class HeroRequest extends FormRequest
     {
         return [
             'title'=>['string','required','max:255'],
-            'background_image'=>['image','mimes:png,jpg,gif','max:2048','nullable'],
+            'background_image'=>['image','mimes:png,jpg,gif','max:8080',in_array($this->method(),['PUT','PATCH'])?'nullable':'required'],
             'subtitle'=>['string','required','max:255'],
             'cta_text'=>['string','required','max:255'],
-            'cta_link'=>['url','required'],
+            'cta_link'=>['required','string'],
         ];
     }
 }

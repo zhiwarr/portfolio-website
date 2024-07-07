@@ -36,20 +36,19 @@ public function create()
     }
     public function update(HeroRequest $request, string $id)
     {
-        $old_data = Hero::findOrFail($id);
-        $new_data = $request->validated();
-        $image = $old_data->image;
+           $data = Hero::findOrFail($id);
+        $image = $data->background_image;
+        $validated = $request->validated();
         if($request->hasFile('background_image')){
-            if(file_exists(public_path("uploads/heros/".$image))){
-                unlink(public_path("uploads/heros/".$image));
+            if(file_exists(public_path('uploads/heros/'.$image))){
+                unlink(public_path('uploads/heros/'.$image));
             }
             $image = $request->file('background_image')->hashName();
-            $request->file('background_image')->move('uploads/heros',$image);
+         $request->file('background_image')->move('uploads/heros/',$image);
         }
-        $new_data['background_image'] = $image;
-        $old_data->update($new_data);
-        return redirect()->back()->with(['message'=> 'Successfully updated a Hero']);
-
+            $validated['background_image'] = $image;
+            $data->update($validated);
+            return redirect()->route('admin.hero.index')->with('success','Project updated successfully');
     }
     public function destroy(string $id)
     {

@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Hero;
+use App\Models\Message;
+use App\Models\Project;
+use App\Models\Skill;
+use App\Models\User;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,56 +21,30 @@ class HomeController extends Controller
         $file = public_path('uploads/cv/'. Auth::user()->cv);
         return response()->download($file, "zhiwar.pdf",$headers);
     }
-    public function index()
-    {
-        //
+    public function home(){
+        $user = User::first();
+        $courses = Course::select('course_name','description','youtube_link','github_url','image')->latest()->get();
+        $skills = Skill::select('name','image')->get();
+        $heros = Hero::select('background_image','title','subtitle','cta_text','cta_link')->get();
+        $projects = Project::select('title','description','project_url','image')->get();
+        return view('home',compact('user','courses','heros','skills','projects'));
     }
+    public function chat(){
+        $user = User::first();
+        $chats = Message::select('message','id','created_at')->latest()->limit(25)->get();
+        return view('chat',compact('chats','user'));
+    }
+   public function sendMessage(Request $request){
+    $validated = $request->validate([
+        'message' => 'required|max:8000|string'
+    ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    Message::create([
+        'message' => $validated['message'],
+    ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Message sent successfully');
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

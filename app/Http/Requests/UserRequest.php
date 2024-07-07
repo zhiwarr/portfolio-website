@@ -24,7 +24,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:64',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4080',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8080',
             'birthday' => 'nullable|date',
             'address' => 'nullable|string|max:255',
             'phone' => [
@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
                 'max:120',
                 'unique:users,email,' . $this->user()->id // Use the authenticated user's ID
             ],
-            'description'=> ['string','nullable','max:2000'],
+            'description'=> ['string','nullable','max:8000'],
             'fb_url' => 'nullable|url|max:255',
             'inst_url' => 'nullable|url|max:255',
             'gmail_url' => 'nullable|string|max:255',
